@@ -1,0 +1,29 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    ports:
+      - 2345:5432
+    env_file:
+      - .docker.example.env
+    volumes:
+      - pg:/var/lib/postgresql/data
+      - ./src/database/sql:/docker-entrypoint-initdb.d/
+
+  api_node:
+    container_name: api_node
+    build: .
+    ports:
+      - 5000:5000
+    env_file:
+      - .docker.example.env
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
+
+volumes:
+  pg:

@@ -1,8 +1,8 @@
 import { Router } from 'express';
+import userRouter from './userRouter.js';
+import errorHandlingMiddleware from '../middlewares/errorHandlingMiddleware.js';
 
 const router = Router();
-router.get('/', (req, res) => {
-	res.sendStatus(200);
-});
-
+router.use(userRouter);
+router.use(errorHandlingMiddleware);
 export default router;
